@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'service',
-    '크롤링 앱 명',
+    'contests',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

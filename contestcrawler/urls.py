@@ -22,5 +22,5 @@ from service import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('contest/', include('service.urls')),
-    path('url/', include('크롤링 앱 명.urls')),
+    path('contests/', include('contests.urls')),
 ]
