@@ -8,18 +8,46 @@
 {% comment %} 
 필터링 버튼 생성 예정 ( 토글과 리스트 중 선택 두 가지 혼용할 듯)
 
-<form action="#" method="GET">
 
 <input type="checkbox" name="region" id="region" value="국가">  True or False
 <input type="checkbox" name="region" id="region" value="사설">  True or False
 <input type="text" name="keyword" id="keyword">
 <input type="submit" value="검색">
-</form>
 
 {% endcomment %}
 
+<form action="#" method="GET">
+    <select name="institution" id="institution">
+        <option value="">기관 선택</option>
+        {% for institution in institutions %}
+        <option value={{ institution }}>{{ institution }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="region_name" id="region">
+        <option value="">지역 선택</option>
+        {% for region in regions %}
+        <option value={{ region }}>{{ region }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="category" id="category">
+        <option value="">분야 선택</option>
+        {% for category in categories %}
+        <option value={{ category }}>{{ category }}</option>
+        {% endfor %}
+    </select>
+
+    <input type="text" name="search_word" id="title__lookup"
+            placeholder='검색어를 입력하세요'>
+    <input type="submit" value="검색">
+</form>
+
+<hr>
+
 {% for contest in contests %}
     {{ contest }}
+    <hr>
 {% endfor %}
 
 {% endblock content %}
