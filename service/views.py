@@ -1,20 +1,23 @@
 from django.shortcuts import render, redirect
 from contests.models import Contest
+from .repositories import Repository as Repo
 
 
 # Create your views here.
 def index(request):
-    contests = Contest.objects.all()
+    contests = Repo.get_data(request.GET.get('conditions'))  # conditions 전달 방식 고민 필요
     context = {
         'contests': contests,
     }
     return render(request, 'service/index.html', context)
 
 
-# 필터링 함수
+# 필터링 함수  -  index 함수랑 결합 가능해보임
 def filtering(request):
+    filtering_condition = request.GET.get('filter')
+    contests = Contest.objects.filter('filtering_condition')
     context = {
-    
+        'contests': contests,
     }
     return render(request, 'service/index.html', context)
 
