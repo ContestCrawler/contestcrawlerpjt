@@ -1,50 +1,12 @@
 from django.shortcuts import render, redirect
 from contests.models import Contest
-from .repositories import Repository as Repo
+from .service import ServiceV1 
 
-
-repository = Repo()
-institutions = [
-    '정부',
-    '사설',
-]
-regions = [
-    '서울',
-    '경기',
-]
-categories = [
-    '빅데이터',
-    'IT',
-]
 
 def index(request):
+    service = ServiceV1()
+    context = service.get_context(request)
 
-    """
-    필터링 기능 ( 사용 시 docstring 제거 후 사용, 하단부 리스트는 테스트용 contests )
-    conditions = {
-        'institution': request.GET.get('institution'),
-        'region_name': request.GET.get('region_name'),
-        'date': request.GET.get('date'),
-        'category': request.GET.get('category'),
-        'title__lookup': request.GET.get('search_word'),
-    }
-
-    conditions = {
-        key: value
-        for key, value in conditions.items()
-        if value
-    }
-
-    contests = repository.get_data(conditions)
-    """
-    contests = ["공모전1", "공모전2", "공모전3"]  # 테스트용
-    context = {
-        'institutions': institutions,
-        'regions': regions,
-        'categories': categories,
-        'contests': contests,
-        # 'title__lookup': title__lookup,
-    }
     return render(request, 'service/index.html', context)
 
 
