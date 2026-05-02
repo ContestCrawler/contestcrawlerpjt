@@ -21,6 +21,6 @@ from service import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('contest/', include('service.urls')),
+    path('service/', include('service.urls')),
     path('contests/', include('contests.urls')),
 ]
