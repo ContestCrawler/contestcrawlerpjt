@@ -46,8 +46,11 @@
 <hr>
 
 {% for contest in contests %}
-    {{ contest }}
+    <p><a href={{ contest.detail_url }}>{{ contest.title }}</a></p>
+    <p>{{ contest.start_date }} - {{ contest.end_date }}</p>
     <hr>
 {% endfor %}
 
+
+최종 업데이트 날짜:
 {% endblock content %}
