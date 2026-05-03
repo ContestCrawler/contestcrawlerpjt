@@ -13,22 +13,20 @@ DEFAULT_HEADERS = {
 
 
 def fetch_detail_page(url, prefer_browser=False, timeout=20):
-    """
-    1. 기본적으로 requests 사용하여 빠르게 HTML 요청
-    2. requests로 가져오기 힘든 경우 Selenium 활용하여 fallbaock처리 (= 대체 방법 사용)
-    """
-    
-    # 기본은 requests로 빠르게 가져오고,
-    # 동적 렌더링이 필요한 경우에만 브라우저 fallback을 사용한다.
+    # requests.get():
+    # - HTTP 요청으로 HTML을 빠르게 가져옴
+    # - headers에 User-Agent를 넣어 일부 사이트의 봇 차단을 줄임
+    #
+    # response.raise_for_status():
+    # - 4xx/5xx 응답을 즉시 예외로 올려 상위에서 에러 처리 가능하게 함
     if not prefer_browser:
         response = requests.get(url, headers=DEFAULT_HEADERS, timeout=timeout)
-        
-        response.raise_for_status() # HTTP 에러 발생 시 예외 처리
-        
+        response.raise_for_status()
         if response.text:
             return response.text
 
-    # 필요한 경우 Selenium 사용
+    # Selenium fallback:
+    # - JS 렌더링 의존 페이지는 requests HTML만으로 정보가 부족할 수 있어 브라우저 경로 제공
     with create_driver() as driver:
         driver.set_page_load_timeout(timeout)
         driver.get(url)
