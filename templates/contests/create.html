@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .page { max-width: 1100px; margin: 24px auto; padding: 0 16px; font-family: "Segoe UI", "Noto Sans KR", sans-serif; }
+  .title { margin: 0 0 8px; font-size: 32px; }
+  .desc { margin: 0 0 20px; color: #4b5563; }
+  .panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  .panel h2 { margin: 0 0 12px; font-size: 18px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .field label { font-weight: 600; font-size: 14px; color: #111827; }
+  .field input, .field select, .field textarea { border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; font-size: 14px; }
+  .field textarea { min-height: 110px; resize: vertical; }
+  .mono textarea, .mono input { font-family: Consolas, "Courier New", monospace; }
+  .help { font-size: 12px; color: #6b7280; }
+  .actions { display: flex; gap: 10px; margin-top: 12px; }
+  .btn { border: 0; border-radius: 10px; padding: 10px 14px; font-weight: 600; cursor: pointer; }
+  .btn-primary { background: #0f766e; color: #fff; }
+  .btn-secondary { background: #e2e8f0; color: #0f172a; }
+  .err { color: #b91c1c; font-size: 13px; margin: 2px 0 0; }
+  @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+</style>
+
+<div class="page">
+  <h1 class="title">Contest Manual Entry</h1>
+  <p class="desc">Load prefill, quickly scan by section, edit, then save.</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="panel">
+      <h2>1) Prefill Source</h2>
+      <div class="field mono">
+        <label for="{{ form.source_url.id_for_label }}">Detail URL</label>
+        {{ form.source_url }}
+        <div class="help">{{ form.source_url.help_text }}</div>
+        {% for e in form.source_url.errors %}<div class="err">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" type="submit" name="action" value="prefill" formnovalidate>Load Prefill</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>2) Core Metadata</h2>
+      <div class="field">
+        <label for="{{ form.title.id_for_label }}">Title</label>
+        {{ form.title }}
+        {% for e in form.title.errors %}<div class="err">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="{{ form.category.id_for_label }}">Category</label>
+          {{ form.category }}
+        </div>
+        <div class="field">
+          <label for="{{ form.region.id_for_label }}">Region</label>
+          {{ form.region }}
+        </div>
+        <div class="field">
+          <label for="{{ form.start_date.id_for_label }}">Start Date</label>
+          {{ form.start_date }}
+        </div>
+        <div class="field">
+          <label for="{{ form.end_date.id_for_label }}">End Date</label>
+          {{ form.end_date }}
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field mono">
+          <label for="{{ form.detail_url.id_for_label }}">Detail URL</label>
+          {{ form.detail_url }}
+        </div>
+        <div class="field">
+          <label for="{{ form.content_type.id_for_label }}">Content Type</label>
+          {{ form.content_type }}
+        </div>
+      </div>
+      <div class="field">
+        <label for="{{ form.is_active.id_for_label }}">Active</label>
+        {{ form.is_active }}
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>3) Eligibility & Description</h2>
+      <div class="field">
+        <label for="{{ form.eligibility.id_for_label }}">Eligibility</label>
+        {{ form.eligibility }}
+      </div>
+      <div class="field">
+        <label for="{{ form.description.id_for_label }}">Description</label>
+        {{ form.description }}
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>4) Assets</h2>
+      <div class="field mono">
+        <label for="{{ form.image_urls.id_for_label }}">Image URLs (one per line)</label>
+        {{ form.image_urls }}
+      </div>
+      <div class="field mono">
+        <label for="{{ form.attachment_lines.id_for_label }}">Attachments (file name | file URL)</label>
+        {{ form.attachment_lines }}
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="submit" name="action" value="save">Save</button>
+    </div>
+  </form>
+</div>
+{% endblock content %}
