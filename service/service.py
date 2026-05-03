@@ -54,7 +54,7 @@ class ServiceV1(Service):
         else:
             contests = self.repository.get_all()
 
-        contests = ["공모전1", "공모전2", "공모전3"]  # 테스트용
+        # contests = ["공모전1", "공모전2", "공모전3"]  # 테스트용
 
         context = {
             'institutions': self.institutions,
