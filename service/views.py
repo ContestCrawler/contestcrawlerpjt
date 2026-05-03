@@ -6,6 +6,7 @@ from .service import MainServiceV1, CreateServiceV1
 def index(request):
     service = MainServiceV1()
     context = service.get_context(request)
+
     return render(request, 'service/index.html', context)
 
 
