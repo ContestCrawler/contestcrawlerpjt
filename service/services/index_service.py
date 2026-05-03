@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from .repositories import ContestRepository
+from repositories.contest_repo import ContestRepository
 
 
 
