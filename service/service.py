@@ -26,7 +26,7 @@ class Service(ABC):
         pass
 
 
-class ServiceV1(Service):
+class MainServiceV1(Service):
 
     def __init__(self):
         super().__init__()
@@ -66,3 +66,19 @@ class ServiceV1(Service):
         return context
 
 
+class CreateServiceV1():
+    def __init__(self):
+        pass
+
+    
+    def get_context(self, request):
+        if request.method == "POST":
+            contest_form = 'modelForm(request.POST)'
+            if contest_form.is_valid():
+                contest_form.save()
+        else:
+            contest_form = 'modelForm()'
+            context = {
+                'contest_form': contest_form,
+            }        
+            return context
