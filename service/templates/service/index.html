@@ -5,18 +5,8 @@
 <h1>공모전 목록</h1>
 
 <hr>
-{% comment %} 
-필터링 버튼 생성 예정 ( 토글과 리스트 중 선택 두 가지 혼용할 듯)
 
-
-<input type="checkbox" name="region" id="region" value="국가">  True or False
-<input type="checkbox" name="region" id="region" value="사설">  True or False
-<input type="text" name="keyword" id="keyword">
-<input type="submit" value="검색">
-
-{% endcomment %}
-
-<form action="#" method="GET">
+<form action="{% url "service:index" %}" method="GET">
     <select name="institution" id="institution">
         <option value="">기관 선택</option>
         {% for institution in institutions %}
@@ -47,6 +37,7 @@
 
 {% for contest in contests %}
     <p><a href={{ contest.detail_url }}>{{ contest.title }}</a></p>
+    <a href="{% url "service:detail" contest.pk %}">[상세 페이지]</a>
     <p>{{ contest.start_date }} - {{ contest.end_date }}</p>
     <hr>
 {% endfor %}

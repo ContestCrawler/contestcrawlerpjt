@@ -1,4 +1,4 @@
-from contests.models import Contest
+from contests.models import Contest, ContestImage, ContestAttachment
 
 
 class ContestRepository():
@@ -14,3 +14,15 @@ class ContestRepository():
         return Contest.objects.filter(**conditions)
 
 
+    def get_detail(self, pk):
+        return Contest.objects.get(pk=pk)
+
+
+    def get_image(self, pk):
+        contest = Contest.objects.get(pk=pk)
+        return contest.images.all()
+
+
+    def get_attachment(self, pk):
+        contest = Contest.objects.get(pk=pk)
+        return contest.attachments.all()

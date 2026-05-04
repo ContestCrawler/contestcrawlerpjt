@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>공모전 상세 페이지</h1>
+<hr>
+{{ contest.title }}
+<hr>
+{{ contest.category }}
+<hr>
+{{ contest.eligibility }}
+<hr>
+{{ contest.description }}
+<hr>
+{{ contest.region }}
+<hr>
+{{ contest.start_date }} ~ {{ contest.end_date }}
+<hr>
+
+<a href="{{ contest.detail_url }}">공모전 페이지 이동</a>
+{{ contest.detail_url }}
+<hr>
+
+{% for contest_image in contest_images %}
+<img src="{{ contest_image.image_url }}" alt="{{ contest_image.alt_text }}">
+<hr>
+{% endfor %}
+
+{% for attachment in contest_attachments %}
+{{ attachment.file_url }}
+<hr>
+{% endfor %}
+
+{% endblock content %}
