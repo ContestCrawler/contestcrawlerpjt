@@ -4,22 +4,10 @@ from ..repositories.contest_repo import ContestRepository
 
 
 class Service(ABC):
-    institutions = [
-        '정부',
-        '사설',
-    ]
-    regions = [
-        '서울',
-        '경기',
-    ]
-    categories = [
-        '빅데이터',
-        'IT',
-    ]
 
     def __init__(self):
         self.repository = ContestRepository()
-
+        self.categories = self.repository.get_distincted("category")
 
     @abstractmethod
     def get_context(self, request):
@@ -41,7 +29,7 @@ class ServiceV1(Service):
             'date': request.GET.get('date'),
             'category': request.GET.get('category'),
             'title__icontains': request.GET.get('search_word'),
-            'description__icontains': request.GET.get('search_word'),
+            # 'description__icontains': request.GET.get('search_word'),
         }
 
         conditions = {
@@ -58,11 +46,10 @@ class ServiceV1(Service):
         # contests = ["공모전1", "공모전2", "공모전3"]  # 테스트용
 
         context = {
-            'institutions': self.institutions,
-            'regions': self.regions,
+            # 'institutions': self.institutions,
+            # 'regions': self.regions,
             'categories': self.categories,
             'contests': contests,
-            # 'title__lookup': title__lookup,
         }
         return context
 

@@ -18,6 +18,10 @@ class ContestRepository():
         return Contest.objects.get(pk=pk)
 
 
+    def get_distincted(self, column):
+        return list(Contest.objects.values_list(column, flat=True))
+
+
     def get_image(self, pk):
         contest = Contest.objects.get(pk=pk)
         return contest.images.all()
@@ -26,3 +30,4 @@ class ContestRepository():
     def get_attachment(self, pk):
         contest = Contest.objects.get(pk=pk)
         return contest.attachments.all()
+    
