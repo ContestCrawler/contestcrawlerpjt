@@ -1,34 +1,71 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'service/css/detail.css' %}">
 
-<h1>공모전 상세 페이지</h1>
-<hr>
-{{ contest.title }}
-<hr>
-{{ contest.category }}
-<hr>
-{{ contest.eligibility }}
-<hr>
-{{ contest.description }}
-<hr>
-{{ contest.region }}
-<hr>
-{{ contest.start_date }} ~ {{ contest.end_date }}
-<hr>
+<div class="page">
+  <h1 class="title">공모전 상세 페이지</h1>
+  <p class="desc">공모전의 핵심 정보, 원문 링크, 이미지와 첨부파일을 확인할 수 있습니다.</p>
 
-<a href="{{ contest.detail_url }}">공모전 페이지 이동</a>
-{{ contest.detail_url }}
-<hr>
+  <section class="panel detail-header">
+    <h2 class="contest-title">{{ contest.title }}</h2>
 
-{% for contest_image in contest_images %}
-<img src="{{ contest_image.image_url }}" alt="{{ contest_image.alt_text }}">
-<hr>
-{% endfor %}
+    <div class="meta-grid">
+      <div class="info-item">
+        <span class="info-label">분야</span>
+        <span class="info-value">{{ contest.category }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">지역</span>
+        <span class="info-value">{{ contest.region }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">기간</span>
+        <span class="info-value">{{ contest.start_date }} ~ {{ contest.end_date }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">지원 자격</span>
+        <span class="info-value">{{ contest.eligibility }}</span>
+      </div>
+    </div>
+  </section>
 
-{% for attachment in contest_attachments %}
-{{ attachment.file_url }}
-<hr>
-{% endfor %}
+  <section class="panel">
+    <h2>공모전 설명</h2>
+    <div class="content-text">{{ contest.description }}</div>
+  </section>
 
+  <section class="panel">
+    <h2>원문 링크</h2>
+    <div class="actions">
+      <a class="btn btn-primary" href="{{ contest.detail_url }}" target="_blank" rel="noopener noreferrer">공모전 페이지 이동</a>
+    </div>
+    <p class="source-url mono">{{ contest.detail_url }}</p>
+  </section>
+
+  <section class="panel">
+    <h2>이미지</h2>
+    <div class="image-grid">
+      {% for contest_image in contest_images %}
+        <img class="contest-image" src="{{ contest_image.image_url }}" alt="{{ contest_image.alt_text }}">
+      {% empty %}
+        <p class="empty-text">등록된 이미지가 없습니다.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>첨부파일</h2>
+    <div class="attachment-list">
+      {% for attachment in contest_attachments %}
+        <a class="attachment-link mono" href="{{ attachment.file_url }}" target="_blank" rel="noopener noreferrer">
+          {{ attachment.file_url }}
+        </a>
+      {% empty %}
+        <p class="empty-text">등록된 첨부파일이 없습니다.</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
 {% endblock content %}

@@ -1,47 +1,74 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'service/css/index.css' %}">
 
-<h1>공모전 목록</h1>
+<div class="page">
+  <h1 class="title">공모전 목록</h1>
+  <p class="desc">조건을 선택하거나 검색어를 입력해 공모전을 찾아보세요.</p>
 
-<hr>
+  <form class="panel search-panel" action="{% url 'service:index' %}" method="GET">
+    <div class="grid-4">
+      <div class="field">
+        <label for="institution">기관</label>
+        <select name="institution" id="institution">
+          <option value="">기관 선택</option>
+          {% for institution in institutions %}
+            <option value="{{ institution }}">{{ institution }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-<form action="{% url "service:index" %}" method="GET">
-    <select name="institution" id="institution">
-        <option value="">기관 선택</option>
-        {% for institution in institutions %}
-        <option value={{ institution }}>{{ institution }}</option>
-        {% endfor %}
-    </select>
+      <div class="field">
+        <label for="region">지역</label>
+        <select name="region_name" id="region">
+          <option value="">지역 선택</option>
+          {% for region in regions %}
+            <option value="{{ region }}">{{ region }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-    <select name="region_name" id="region">
-        <option value="">지역 선택</option>
-        {% for region in regions %}
-        <option value={{ region }}>{{ region }}</option>
-        {% endfor %}
-    </select>
+      <div class="field">
+        <label for="category">분야</label>
+        <select name="category" id="category">
+          <option value="">분야 선택</option>
+          {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-    <select name="category" id="category">
-        <option value="">분야 선택</option>
-        {% for category in categories %}
-        <option value={{ category }}>{{ category }}</option>
-        {% endfor %}
-    </select>
+      <div class="field">
+        <label for="title__lookup">검색어</label>
+        <input type="text" name="search_word" id="title__lookup" placeholder="검색어를 입력하세요">
+      </div>
+    </div>
 
-    <input type="text" name="search_word" id="title__lookup"
-            placeholder='검색어를 입력하세요'>
-    <input type="submit" value="검색">
-</form>
+    <div class="actions">
+      <button class="btn btn-primary" type="submit">검색</button>
+    </div>
+  </form>
 
-<hr>
+  <div class="contest-list">
+    {% for contest in contests %}
+      <article class="panel contest-card">
+        <div class="contest-content">
+          <h2 class="contest-title">
+            <a href="{{ contest.detail_url }}">{{ contest.title }}</a>
+          </h2>
+          <p class="contest-date">{{ contest.start_date }} - {{ contest.end_date }}</p>
+        </div>
+        <a class="btn btn-secondary" href="{% url 'service:detail' contest.pk %}">상세 페이지</a>
+      </article>
+    {% empty %}
+      <div class="panel empty">
+        조건에 맞는 공모전이 없습니다.
+      </div>
+    {% endfor %}
+  </div>
 
-{% for contest in contests %}
-    <p><a href={{ contest.detail_url }}>{{ contest.title }}</a></p>
-    <a href="{% url "service:detail" contest.pk %}">[상세 페이지]</a>
-    <p>{{ contest.start_date }} - {{ contest.end_date }}</p>
-    <hr>
-{% endfor %}
-
-
-최종 업데이트 날짜:
+  <p class="updated-at">최종 업데이트 날짜:</p>
+</div>
 {% endblock content %}
