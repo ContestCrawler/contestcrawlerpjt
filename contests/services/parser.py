@@ -41,7 +41,7 @@ def parse_contest_list(html):
         detail_url = link_tag.get("href", "") if link_tag else ""
         title = clean_text(title_tag.get_text()) if title_tag else ""
         period = clean_text(period_tag.get_text()) if period_tag else ""
-        region = clean_text(region_tag.get_text()) if region_tag else ""
+        host_region = clean_text(region_tag.get_text()) if region_tag else ""
 
         # parse_period():
         # - "YYYY-MM-DD ~ YYYY-MM-DD"를 date 2개로 변환
@@ -54,7 +54,7 @@ def parse_contest_list(html):
         contests.append({
             "detail_url": detail_url,
             "title": title,
-            "region": region,
+            "host_region": host_region,
             "start_date": start_date,
             "end_date": end_date,
         })
