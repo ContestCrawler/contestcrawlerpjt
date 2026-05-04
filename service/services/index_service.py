@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from repositories.contest_repo import ContestRepository
+from ..repositories.contest_repo import ContestRepository
 
 
 
@@ -40,7 +40,8 @@ class ServiceV1(Service):
             'region_name': request.GET.get('region_name'),
             'date': request.GET.get('date'),
             'category': request.GET.get('category'),
-            'title__lookup': request.GET.get('search_word'),
+            'title__icontains': request.GET.get('search_word'),
+            'description__icontains': request.GET.get('search_word'),
         }
 
         conditions = {
