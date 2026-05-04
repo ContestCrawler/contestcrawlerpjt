@@ -45,20 +45,43 @@
 
     <div class="panel">
       <h2>2) Core Metadata</h2>
+      {# 제목은 긴 경우가 많아 한 줄 전체를 사용한다. #}
       <div class="field">
         <label for="{{ form.title.id_for_label }}">Title</label>
         {{ form.title }}
         {% for e in form.title.errors %}<div class="err">{{ e }}</div>{% endfor %}
       </div>
+      {# 분야도 값이 길 수 있어 단독 줄로 둔다. #}
       <div class="grid-2">
         <div class="field">
           <label for="{{ form.category.id_for_label }}">Category</label>
           {{ form.category }}
         </div>
+      </div>
+      {# 주최지역과 주최사는 서로 다른 의미라 별도 필드로 나누되, 비교하기 쉽게 같은 줄에 둔다. #}
+      <div class="grid-2">
         <div class="field">
-          <label for="{{ form.region.id_for_label }}">Region</label>
-          {{ form.region }}
+          <label for="{{ form.host_region.id_for_label }}">Host Region</label>
+          {{ form.host_region }}
         </div>
+        <div class="field">
+          <label for="{{ form.organizer.id_for_label }}">Organizer</label>
+          {{ form.organizer }}
+        </div>
+      </div>
+      {# 상금 정보는 위비티 요약 영역에서 같이 제공되므로 한 줄에 묶는다. #}
+      <div class="grid-2">
+        <div class="field">
+          <label for="{{ form.total_prize.id_for_label }}">Total Prize</label>
+          {{ form.total_prize }}
+        </div>
+        <div class="field">
+          <label for="{{ form.first_prize.id_for_label }}">First Prize</label>
+          {{ form.first_prize }}
+        </div>
+      </div>
+      {# 시작일/종료일은 기간 확인이 쉽도록 같은 줄에 배치한다. #}
+      <div class="grid-2">
         <div class="field">
           <label for="{{ form.start_date.id_for_label }}">Start Date</label>
           {{ form.start_date }}
@@ -68,6 +91,7 @@
           {{ form.end_date }}
         </div>
       </div>
+      {# detail_url은 실제 공모전 페이지로 이동할 URL이다. 위비티 입력 시 요약의 홈페이지 URL이 들어온다. #}
       <div class="grid-2">
         <div class="field mono">
           <label for="{{ form.detail_url.id_for_label }}">Detail URL</label>
