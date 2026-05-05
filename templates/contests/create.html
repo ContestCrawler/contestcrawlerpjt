@@ -39,7 +39,7 @@
         {% for e in form.source_url.errors %}<div class="err">{{ e }}</div>{% endfor %}
       </div>
       <div class="actions">
-        <button class="btn btn-secondary" type="submit" name="action" value="prefill" formnovalidate>Load Prefill</button>
+        <button class="btn btn-secondary" type="submit" formaction="{% url 'contests:prefill' %}" formnovalidate>Load Prefill</button>
       </div>
     </div>
 
