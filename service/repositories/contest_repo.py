@@ -1,4 +1,4 @@
-from contests.models import Contest, ContestImage, ContestAttachment
+from contests.models import Contest
 
 
 class ContestRepository():
