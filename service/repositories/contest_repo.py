@@ -6,11 +6,16 @@ class ContestRepository():
         pass
     
 
+    def save(self, contest: Contest):
+        contest.save()
+        pass
+
+
     def get_all(self):
         return Contest.objects.all()
     
 
-    def get_filtered(self, conditions):
+    def get_filtered(self, conditions: dict):
         return Contest.objects.filter(**conditions)
 
 
