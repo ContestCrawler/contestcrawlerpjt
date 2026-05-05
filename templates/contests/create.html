@@ -23,118 +23,48 @@
 </style>
 
 <div class="page">
-  <h1 class="title">Contest Manual Entry</h1>
-  <p class="desc">Load prefill, quickly scan by section, edit, then save.</p>
+  <h1 class="title">Wevity List Crawl</h1>
+  <p class="desc">Enter a Wevity category list URL to crawl contests from that page.</p>
 
   <form method="post">
     {% csrf_token %}
     {{ form.non_field_errors }}
 
     <div class="panel">
-      <h2>1) Prefill Source</h2>
+      <h2>1) Wevity List Source</h2>
       <div class="field mono">
-        <label for="{{ form.source_url.id_for_label }}">Detail URL</label>
+        <label for="{{ form.source_url.id_for_label }}">Wevity List URL</label>
         {{ form.source_url }}
         <div class="help">{{ form.source_url.help_text }}</div>
         {% for e in form.source_url.errors %}<div class="err">{{ e }}</div>{% endfor %}
       </div>
       <div class="actions">
-        <button class="btn btn-secondary" type="submit" formaction="{% url 'contests:prefill' %}" formnovalidate>Load Prefill</button>
+        <button class="btn btn-secondary" type="submit" formaction="{% url 'contests:prefill' %}" formnovalidate>Run Wevity Crawl</button>
       </div>
     </div>
 
+    {# 현재 방향성에서는 아래 수동 저장/검수 UI를 사용하지 않는다.
+       나중에 상세 prefill + 수동 저장 흐름을 되살릴 수 있게 템플릿 구조만 주석으로 남겨둔다.
+
     <div class="panel">
       <h2>2) Core Metadata</h2>
-      {# 제목은 긴 경우가 많아 한 줄 전체를 사용한다. #}
-      <div class="field">
-        <label for="{{ form.title.id_for_label }}">Title</label>
-        {{ form.title }}
-        {% for e in form.title.errors %}<div class="err">{{ e }}</div>{% endfor %}
-      </div>
-      {# 분야도 값이 길 수 있어 단독 줄로 둔다. #}
-      <div class="grid-2">
-        <div class="field">
-          <label for="{{ form.category.id_for_label }}">Category</label>
-          {{ form.category }}
-        </div>
-      </div>
-      {# 주최지역과 주최사는 서로 다른 의미라 별도 필드로 나누되, 비교하기 쉽게 같은 줄에 둔다. #}
-      <div class="grid-2">
-        <div class="field">
-          <label for="{{ form.host_region.id_for_label }}">Host Region</label>
-          {{ form.host_region }}
-        </div>
-        <div class="field">
-          <label for="{{ form.organizer.id_for_label }}">Organizer</label>
-          {{ form.organizer }}
-        </div>
-      </div>
-      {# 상금 정보는 위비티 요약 영역에서 같이 제공되므로 한 줄에 묶는다. #}
-      <div class="grid-2">
-        <div class="field">
-          <label for="{{ form.total_prize.id_for_label }}">Total Prize</label>
-          {{ form.total_prize }}
-        </div>
-        <div class="field">
-          <label for="{{ form.first_prize.id_for_label }}">First Prize</label>
-          {{ form.first_prize }}
-        </div>
-      </div>
-      {# 시작일/종료일은 기간 확인이 쉽도록 같은 줄에 배치한다. #}
-      <div class="grid-2">
-        <div class="field">
-          <label for="{{ form.start_date.id_for_label }}">Start Date</label>
-          {{ form.start_date }}
-        </div>
-        <div class="field">
-          <label for="{{ form.end_date.id_for_label }}">End Date</label>
-          {{ form.end_date }}
-        </div>
-      </div>
-      {# detail_url은 실제 공모전 페이지로 이동할 URL이다. 위비티 입력 시 요약의 홈페이지 URL이 들어온다. #}
-      <div class="grid-2">
-        <div class="field mono">
-          <label for="{{ form.detail_url.id_for_label }}">Detail URL</label>
-          {{ form.detail_url }}
-        </div>
-        <div class="field">
-          <label for="{{ form.content_type.id_for_label }}">Content Type</label>
-          {{ form.content_type }}
-        </div>
-      </div>
-      <div class="field">
-        <label for="{{ form.is_active.id_for_label }}">Active</label>
-        {{ form.is_active }}
-      </div>
+      ...
     </div>
 
     <div class="panel">
       <h2>3) Eligibility & Description</h2>
-      <div class="field">
-        <label for="{{ form.eligibility.id_for_label }}">Eligibility</label>
-        {{ form.eligibility }}
-      </div>
-      <div class="field">
-        <label for="{{ form.description.id_for_label }}">Description</label>
-        {{ form.description }}
-      </div>
+      ...
     </div>
 
     <div class="panel">
       <h2>4) Assets</h2>
-      <div class="field mono">
-        <label for="{{ form.image_urls.id_for_label }}">Image URLs (one per line)</label>
-        {{ form.image_urls }}
-      </div>
-      <div class="field mono">
-        <label for="{{ form.attachment_lines.id_for_label }}">Attachments (file name | file URL)</label>
-        {{ form.attachment_lines }}
-      </div>
+      ...
     </div>
 
     <div class="actions">
       <button class="btn btn-primary" type="submit" name="action" value="save">Save</button>
     </div>
+    #}
   </form>
 </div>
 {% endblock content %}
