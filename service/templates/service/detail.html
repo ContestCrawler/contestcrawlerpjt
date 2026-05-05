@@ -13,12 +13,20 @@
 
     <div class="meta-grid">
       <div class="info-item">
+        <span class="info-label">주관</span>
+        <span class="info-value">{{ contest.organizer }}</span>
+      </div>
+      <div class="info-item">
         <span class="info-label">분야</span>
         <span class="info-value">{{ contest.category }}</span>
       </div>
       <div class="info-item">
         <span class="info-label">지역</span>
-        <span class="info-value">{{ contest.region }}</span>
+        {% if contest.host_region %}
+        <span class="info-value">{{ contest.host_region }}</span>
+        {% else %}
+          <p class="info-value">제한없음</p>
+        {% endif %}
       </div>
       <div class="info-item">
         <span class="info-label">기간</span>
@@ -27,6 +35,11 @@
       <div class="info-item">
         <span class="info-label">지원 자격</span>
         <span class="info-value">{{ contest.eligibility }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">상금</span>
+        <span class="info-value">총 상금: {{ contest.total_prize }}</span>
+        <span class="info-value">1등 상금: {{ contest.first_prize }}</span>
       </div>
     </div>
   </section>
