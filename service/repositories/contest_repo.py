@@ -31,3 +31,7 @@ class ContestRepository():
         contest = Contest.objects.get(pk=pk)
         return contest.attachments.all()
     
+
+    def find_contest(self, title):
+        contests = Contest.objects.filter(title=title)
+        return contests.exists()
