@@ -71,12 +71,13 @@ def split_contest_prefill(prefill_data):
 
 
 @transaction.atomic
-def create_contest_with_assets(prefill_data):
+def create_contest_with_assets(prefill_data, crawling_log=None):
     """
     Contest와 연결 자산을 하나의 트랜잭션으로 저장한다.
 
     의미:
         공모전 본문, 이미지, 첨부파일 저장을 하나로 묶어 중간 실패 시 부분 저장을 막는다.
+        crawling_log가 전달되면 생성된 Contest가 어떤 크롤링 실행에서 들어왔는지 추적할 수 있게 연결한다.
 
     반환값:
         생성된 Contest 모델 인스턴스를 반환한다.
@@ -85,6 +86,8 @@ def create_contest_with_assets(prefill_data):
         Contest 생성 또는 자산 저장 중 예외가 발생하면 transaction.atomic이 전체 저장을 rollback한다.
     """
     contest_fields, asset_fields = split_contest_prefill(prefill_data)
+    if crawling_log is not None:
+        contest_fields["crawling_log"] = crawling_log
     contest = Contest.objects.create(**contest_fields)
     save_contest_assets(contest=contest, **asset_fields)
     return contest
