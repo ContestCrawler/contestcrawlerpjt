@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 
 from .forms import ContestCreateForm
-from .services.crawler import crawl_wevity_list_page
-from .services.prefill import is_wevity_list_url
+from .services.crawling.wevity import crawl_wevity_list
+from .services.prefilling.url_rules import is_wevity_list_url
 
 
 def create_contest(request):
@@ -30,7 +30,7 @@ def prefill_contest(request):
         
         # 수동 실행이든 나중의 스케줄러 실행이든
         # 실제 수집 로직은 동일한 크롤러 진입점을 사용하도록 맞춘다.
-        crawl_wevity_list_page(source_url) # 여기서 리스트 페이지 전달
+        crawl_wevity_list(source_url) # 여기서 리스트 페이지 전달
         
     # 에러 처리
     except ValueError as exc:
