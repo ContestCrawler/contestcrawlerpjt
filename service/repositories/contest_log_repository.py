@@ -14,8 +14,8 @@ class CrawlingLogRepository():
         pass
 
 
-    def get_all(self) -> None:
+    def get_all(self):
         """
         모든 로그 QuerySet 반환
         """
-        return CrawlingLog.objects.all()
+        return CrawlingLog._objects.all()
