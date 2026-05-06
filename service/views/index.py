@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from contests.models import Contest
 from ..services.index_service import ServiceV1
 
 
