@@ -41,6 +41,13 @@ class Contest(models.Model):
     # 실제 공모전 페이지로 이동할 URL.
     # 공공데이터포털 입력 시에는 입력 URL을, 위비티 입력 시에는 요약 영역의 홈페이지 URL을 저장한다.
     detail_url = models.URLField(unique=True)
+    crawling_log = models.ForeignKey(
+        "service.CrawlingLog",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="contests",
+    )
     content_type = models.CharField(
         max_length=20,
         choices=CONTENT_TYPE_CHOICES,
