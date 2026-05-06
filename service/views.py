@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from service.services.index_service import ServiceV1
+from service.services.index_service import Service
 
 
 # Service 메서드를 제공할 객체
-service = ServiceV1()
+service = Service()
 
 # 메인페이지 표시할 공모전 리스트업 함수
 def index(request):
