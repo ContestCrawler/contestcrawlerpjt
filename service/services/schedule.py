@@ -1,5 +1,5 @@
 # from contests.trigger import trigger
-from django.utils import timezone
+from django.db.models.functions import Now
 from service.repositories.contest_repo import ContestRepository
 
 
@@ -7,35 +7,28 @@ from service.repositories.contest_repo import ContestRepository
 contest_repository = ContestRepository()
 
 
+# 크롤링 시작 트리거 함수
 def start_crawl():
-    # return trigger()
-    # trigger() 함수가 중복 데이터 pk 값 반환
+    # crawl()
     pass
 
 
-def date_update_to(limit_pk):
-    # pk 가 limit_pk 보다 작고 아직 종료되지 않은 공모전을 filtering 하는 conditions
+# 실행 당시 날짜를 기준으로 종료 날짜기 지난 공모전 필터링 후
+# 필터링된 공모전 비활성화 및 soft delete
+def date_update_to():
+    activated_date = Now()
+
     conditions = {
-        'pk__lt': limit_pk,
-        'is_active': True,
+        'end_date__lt': activated_date,
     }
     contests = contest_repository.get_filtered(conditions)
 
-    activated_date = timezone.localdate()
-
     for contest in contests:
-        if contest.end_date == None:
-            continue
-
-        if contest.end_date < activated_date:
-            contest.is_active = False
-            contest.deleted_at = activated_date
-            contest.save()
-        else:
-            contest.updated_at = activated_date
-    pass
+        contest.is_active = False
+        contest.deleted_at = activated_date
+        contest.save()
 
 
 def run_scheduled_update():
-    limit_pk = start_crawl()
-    date_update_to(limit_pk)
+    start_crawl()
+    date_update_to()
