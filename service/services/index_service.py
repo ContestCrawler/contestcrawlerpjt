@@ -21,7 +21,7 @@ class ServiceV1(Service):
         pass
 
 
-    def get_context(self, request):
+    def get_contests_list(self, request):
 
         conditions = {
             'institution': request.GET.get('institution'),
@@ -53,4 +53,16 @@ class ServiceV1(Service):
         }
         return context
 
+
+    def get_contest_detail(self, contest_pk):
+        contest_repository = ContestRepository()
+        contest = contest_repository.get(contest_pk)
+        contest_images = contest_repository.get_image(contest_pk)
+        contest_attachments = contest_repository.get_attachment(contest_pk)
+        context = {
+            'contest': contest,
+            'contest_images': contest_images,
+            'contest_attachments': contest_attachments,
+        }
+        return context
 
