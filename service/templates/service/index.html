@@ -10,25 +10,6 @@
 
   <form class="panel search-panel" action="{% url 'service:index' %}" method="GET">
     <div class="grid-4">
-      <div class="field">
-        <label for="institution">기관</label>
-        <select name="institution" id="institution">
-          <option value="">기관 선택</option>
-          {% for institution in institutions %}
-            <option value="{{ institution }}">{{ institution }}</option>
-          {% endfor %}
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="region">지역</label>
-        <select name="region_name" id="region">
-          <option value="">지역 선택</option>
-          {% for region in regions %}
-            <option value="{{ region }}">{{ region }}</option>
-          {% endfor %}
-        </select>
-      </div>
 
       <div class="field">
         <label for="category">분야</label>
@@ -53,6 +34,7 @@
 
   <div class="contest-list">
     {% for contest in contests %}
+    {% if contest.is_active %}
       <article class="panel contest-card">
         <div class="contest-content">
           <h2 class="contest-title">
@@ -62,6 +44,7 @@
         </div>
         <a class="btn btn-secondary" href="{% url 'service:detail' contest.pk %}">상세 페이지</a>
       </article>
+    {% endif %}
     {% empty %}
       <div class="panel empty">
         조건에 맞는 공모전이 없습니다.

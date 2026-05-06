@@ -19,7 +19,7 @@ class ContestRepository():
         return Contest._objects.filter(**conditions)
 
 
-    def get_detail(self, pk):
+    def get(self, pk):
         return Contest._objects.get(pk=pk)
 
 
