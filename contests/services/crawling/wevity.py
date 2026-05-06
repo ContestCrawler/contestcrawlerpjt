@@ -1,36 +1,16 @@
 from contests.services.crawling.fetchers import fetch_wevity_list_html
 from contests.services.parsing.wevity_list import parse_wevity_list_page as parse_wevity_list_html
+from contests.services.persistence.crawling_logs import (
+    create_running_crawling_log,
+    save_crawling_log_result,
+)
 from contests.services.prefilling.url_rules import is_wevity_detail_url, is_wevity_list_url
 
 
 DEFAULT_WEVITY_LIST_URL = "https://www.wevity.com/?c=find&s=1&gub=1&cidx=20"
-STATUS_RUNNING = "running"
 STATUS_SUCCESS = "success"
 STATUS_PARTIAL_SUCCESS = "partial_success"
 STATUS_FAILED = "failed"
-
-
-def create_crawling_log():
-    """
-    Wevity 크롤링 실행 1회를 나타내는 CrawlingLog 객체를 생성한다.
-
-    의미:
-        스케줄러나 view가 별도 로그 객체를 만들지 않아도, 크롤링 로직 내부에서 이번 실행의 시작 상태를 DB에 남긴다.
-
-    반환값:
-        status가 running이고 count 값이 0으로 초기화된 CrawlingLog 모델 인스턴스를 반환한다.
-    """
-    from django.utils import timezone
-    from service.models import CrawlingLog
-
-    return CrawlingLog.objects.create(
-        status=STATUS_RUNNING,
-        started_at=timezone.now(),
-        total_count=0,
-        created_count=0,
-        updated_count=0,
-        failed_count=0,
-    )
 
 
 def new_crawling_result():
@@ -66,33 +46,6 @@ def merge_crawling_result(total_result, page_result):
     return total_result
 
 
-def save_crawling_log_result(crawling_log, result, status):
-    """
-    크롤링 결과 count와 최종 status를 CrawlingLog에 저장한다.
-
-    의미:
-        크롤링 내부에서 누적한 실행 결과를 DB 로그 레코드에 반영한다.
-
-    반환값:
-        저장이 끝난 CrawlingLog 인스턴스를 반환한다.
-    """
-    crawling_log.status = status
-    crawling_log.total_count = result["total_count"]
-    crawling_log.created_count = result["created_count"]
-    crawling_log.updated_count = result["updated_count"]
-    crawling_log.failed_count = result["failed_count"]
-    crawling_log.save(
-        update_fields=[
-            "status",
-            "total_count",
-            "created_count",
-            "updated_count",
-            "failed_count",
-        ]
-    )
-    return crawling_log
-
-
 def get_crawling_status(result):
     """
     누적된 크롤링 결과 count로 최종 로그 status를 결정한다.
@@ -122,7 +75,7 @@ def crawl_wevity_contests(source_urls):
         CrawlingLog 인스턴스를 반환한다. 각 URL은 Contest 및 자산 레코드로 저장되고,
         저장된 Contest는 반환된 CrawlingLog를 FK로 참조한다.
     """
-    crawling_log = create_crawling_log()
+    crawling_log = create_running_crawling_log()
     result = new_crawling_result()
 
     for source_url in source_urls:
@@ -155,7 +108,7 @@ def crawl_wevity_list(list_url):
         목록 URL이 비어 있거나 Wevity 목록 URL이 아니면 ValueError가 발생한다.
         상세 저장 과정의 예외는 상위 호출자에게 전달된다.
     """
-    crawling_log = create_crawling_log()
+    crawling_log = create_running_crawling_log()
     result = new_crawling_result()
 
     try:
