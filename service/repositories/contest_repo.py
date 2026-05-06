@@ -12,31 +12,31 @@ class ContestRepository():
 
 
     def get_all(self):
-        return Contest.objects.all()
+        return Contest._objects.all()
     
 
     def get_filtered(self, conditions: dict):
-        return Contest.objects.filter(**conditions)
+        return Contest._objects.filter(**conditions)
 
 
     def get_detail(self, pk):
-        return Contest.objects.get(pk=pk)
+        return Contest._objects.get(pk=pk)
 
 
     def get_distincted(self, column):
-        return list(Contest.objects.values_list(column, flat=True))
+        return list(Contest._objects.values_list(column, flat=True))
 
 
     def get_image(self, pk):
-        contest = Contest.objects.get(pk=pk)
+        contest = Contest._objects.get(pk=pk)
         return contest.images.all()
 
 
     def get_attachment(self, pk):
-        contest = Contest.objects.get(pk=pk)
+        contest = Contest._objects.get(pk=pk)
         return contest.attachments.all()
     
 
     def find_contest(self, title):
-        contests = Contest.objects.filter(title=title)
+        contests = Contest._objects.filter(title=title)
         return contests.exists()

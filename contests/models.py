@@ -2,6 +2,8 @@ from django.db import models
 
 
 class Contest(models.Model):
+    _objects = models.Manager()
+
     # 상세 페이지 본문이 어떤 매체 중심인지 분류한다.
     # 관리자가 저장 전에 빠르게 검토하거나, 서비스 화면에서 표시 방식을 나눌 때 사용할 수 있다.
     CONTENT_TYPE_CHOICES = [
