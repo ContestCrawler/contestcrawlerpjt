@@ -16,6 +16,7 @@ class CrawlingLog(models.Model):
     ~~error_message: 현재 코드가 예외를 따로 구분하지 않고 있기 때문에 불필요~~  
     ~~traceback: 이게 뭘까?~~
     """
+    _objects = models.Manager()
 
     status = models.CharField(max_length=50)
     started_at = models.DateTimeField()    
