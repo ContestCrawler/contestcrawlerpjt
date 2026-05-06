@@ -1,4 +1,4 @@
-from contests.models import Contest
+from contests.models import Contest, ContestImage, ContestAttachment
 
 
 class ContestRepository():
@@ -40,3 +40,21 @@ class ContestRepository():
     def find_contest(self, title):
         contests = Contest._objects.filter(title=title)
         return contests.exists()
+    
+
+class ContestImageRepository():
+    def __init__(self):
+        pass
+
+
+    def save(self, contest_image: ContestImage):
+        contest_image.save()
+
+
+class ContestAttachmentRepository():
+    def __init__(self):
+        pass
+
+
+    def save(self, contest_attachment: ContestAttachment):
+        contest_attachment.save()
