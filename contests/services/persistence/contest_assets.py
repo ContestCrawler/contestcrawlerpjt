@@ -4,6 +4,12 @@ from django.db import transaction
 
 from contests.models import Contest, ContestAttachment, ContestImage
 
+from service.repositories.contest_repo import ContestRepository, ContestImageRepository, ContestAttachmentRepository
+
+contest_repository = ContestRepository()
+contest_image_repository = ContestImageRepository()
+contest_attachment_repository = ContestAttachmentRepository()
+
 
 def get_file_name_from_url(url):
     """
@@ -45,7 +51,7 @@ def split_contest_prefill(prefill_data):
 
     반환값:
         (contest_fields, asset_fields) tuple을 반환한다.
-        - contest_fields: Contest.objects.create(**contest_fields)에 쓰는 dict
+        - contest_fields: ContestRepository.save() 전에 Contest 인스턴스 생성에 쓰는 dict
         - asset_fields: save_contest_assets()에 넘길 image_urls_text, attachment_lines_text dict
     """
     contest_fields = {
@@ -88,7 +94,8 @@ def create_contest_with_assets(prefill_data, crawling_log=None):
     contest_fields, asset_fields = split_contest_prefill(prefill_data)
     if crawling_log is not None:
         contest_fields["crawling_log"] = crawling_log
-    contest = Contest.objects.create(**contest_fields)
+    contest = Contest(**contest_fields)
+    contest_repository.save(contest)
     save_contest_assets(contest=contest, **asset_fields)
     return contest
 
@@ -105,7 +112,8 @@ def save_contest_assets(contest, image_urls_text, attachment_lines_text):
     """
     image_urls = [line.strip() for line in image_urls_text.splitlines() if line.strip()]
     for image_url in image_urls:
-        ContestImage.objects.create(contest=contest, image_url=image_url)
+        contest_image = ContestImage(contest=contest, image_url=image_url)
+        contest_image_repository.save(contest_image)
 
     attachment_lines = [line.strip() for line in attachment_lines_text.splitlines() if line.strip()]
     for line in attachment_lines:
@@ -122,9 +130,10 @@ def save_contest_assets(contest, image_urls_text, attachment_lines_text):
         if not file_name:
             file_name = get_file_name_from_url(file_url)
 
-        ContestAttachment.objects.create(
+        contest_attachment = ContestAttachment(
             contest=contest,
             file_name=file_name,
             file_url=file_url,
             file_type=get_attachment_type(file_name),
         )
+        contest_attachment_repository.save(contest_attachment)
