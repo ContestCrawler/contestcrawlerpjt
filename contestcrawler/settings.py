@@ -108,10 +108,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
+# True => 내부적으로 UTC 기준으로 저장, 보여줄 때만 'Asia/Seoul'로 변환
+# False => DB에 저장할 때도 한국 시간 그대로 저장
 USE_TZ = True
 
 

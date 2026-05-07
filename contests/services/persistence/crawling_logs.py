@@ -1,9 +1,11 @@
 from django.utils import timezone
 
 from service.models import CrawlingLog
+from service.repositories.contest_log_repository import CrawlingLogRepository
 
 
 STATUS_RUNNING = "running"
+crawling_log_repository = CrawlingLogRepository()
 
 
 def create_running_crawling_log():
@@ -19,7 +21,7 @@ def create_running_crawling_log():
     반환값:
         status가 running이고 count 값이 0으로 초기화된 CrawlingLog 모델 인스턴스를 반환한다.
     """
-    return CrawlingLog.objects.create(
+    crawling_log = CrawlingLog(
         status=STATUS_RUNNING,
         started_at=timezone.now(),
         total_count=0,
@@ -27,6 +29,8 @@ def create_running_crawling_log():
         updated_count=0,
         failed_count=0,
     )
+    crawling_log_repository.save(crawling_log)
+    return crawling_log
 
 
 def save_crawling_log_result(crawling_log, result, status):
@@ -51,13 +55,5 @@ def save_crawling_log_result(crawling_log, result, status):
     crawling_log.created_count = result["created_count"]
     crawling_log.updated_count = result["updated_count"]
     crawling_log.failed_count = result["failed_count"]
-    crawling_log.save(
-        update_fields=[
-            "status",
-            "total_count",
-            "created_count",
-            "updated_count",
-            "failed_count",
-        ]
-    )
+    crawling_log_repository.save(crawling_log)
     return crawling_log
