@@ -17,7 +17,7 @@ echo "===================================" >> "$LOG_FILE"
 echo "크롤링 시작: $(date)" >> "$LOG_FILE"
 
 # 가상환경 실행
-source "$PROJECT_DIR/venv/bin/activate"
+source "$PROJECT_DIR/venv/Script/activate"
 
 # Django Management Command 실행
 python manage.py crawl_contests >> "$LOG_FILE" 2>&1
