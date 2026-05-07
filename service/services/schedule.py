@@ -1,7 +1,7 @@
 # from contests.trigger import trigger
 from django.db.models.functions import Now
 from service.repositories.contest_repo import ContestRepository
-
+from contests.services.crawling.wevity import crawl_latest_wevity_contests
 
 
 contest_repository = ContestRepository()
@@ -9,8 +9,7 @@ contest_repository = ContestRepository()
 
 # 크롤링 시작 트리거 함수
 def start_crawl():
-    # crawl()
-    pass
+    crawl_latest_wevity_contests()
 
 
 # 실행 당시 날짜를 기준으로 종료 날짜기 지난 공모전 필터링 후
