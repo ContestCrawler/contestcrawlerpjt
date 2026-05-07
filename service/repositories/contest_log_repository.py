@@ -19,3 +19,17 @@ class CrawlingLogRepository():
         모든 로그 QuerySet 반환
         """
         return CrawlingLog._objects.all()
+    
+
+    def filter_success(self):
+        """
+        성공한 로그 QuerySet 반환
+        """
+        return CrawlingLog._objects.filter(status='success')
+    
+
+    def filter_fail(self):
+        """
+        실패한 로그 QuerySet 반환
+        """
+        return CrawlingLog._objects.filter(status='fail')
